@@ -1,13 +1,14 @@
 use std::env;
 mod algorithm;
 // use solve_tenpuzzle::algorithm::Permutation;
+const ANS : f32 = 10.0;
 
 fn main() {
     let args : Vec<String> = env::args().collect();
     
     if args.len() <= 1 {
         let ans = solve_all();
-        println!("How many numbers can be solved?? : {}",ans);
+        println!("How many numbers can be solved?? : {}  : ({} puzzle)",ans, ANS);
     }else{
         for i in 1..args.len() {
             let tmp = &args[i].clone();
@@ -64,7 +65,7 @@ fn solve(v : &mut Vec<f32>) -> Vec<String>{
 
                     
 
-                    if (ans - 10.0).abs() <= 0.001 {
+                    if (ans - ANS).abs() <= 0.001 {
                         let s = format!("(({}{}{}){}{}){}{}",a,&op[0],b,&op[1],c,&op[2],d);
                         res.push(s);
                     }
@@ -85,7 +86,7 @@ fn solve(v : &mut Vec<f32>) -> Vec<String>{
                     };
                     
 
-                    if (ans - 10.0).abs() <= 0.001 {
+                    if (ans - ANS).abs() <= 0.001 {
                         let s = format!("({}{}({}{}{})){}{}",a,&op[0],b,&op[1],c,&op[2],d);
                         res.push(s);
                     }
@@ -108,7 +109,7 @@ fn solve(v : &mut Vec<f32>) -> Vec<String>{
                     };
                     
 
-                    if (ans - 10.0).abs() <= 0.001 {
+                    if (ans - ANS).abs() <= 0.001 {
                         let s = format!("{}{}({}{}({}{}{}))",a,&op[0],b,&op[1],c,&op[2],d);
                         res.push(s);
                     }
@@ -129,7 +130,7 @@ fn solve(v : &mut Vec<f32>) -> Vec<String>{
                     };
                     
 
-                    if (ans - 10.0).abs() <= 0.001 {
+                    if (ans - ANS).abs() <= 0.001 {
                         let s = format!("{}{}(({}{}{}){}{})",a,&op[0],b,&op[1],c,&op[2],d);
                         res.push(s);
                     }
@@ -151,7 +152,7 @@ fn solve(v : &mut Vec<f32>) -> Vec<String>{
                     
                     
 
-                    if (ans - 10.0).abs() <= 0.001 {
+                    if (ans - ANS).abs() <= 0.001 {
                         let s = format!("({}{}{}){}({}{}{})",a,&op[0],b,&op[1],c,&op[2],d);
                         res.push(s);
                     }
