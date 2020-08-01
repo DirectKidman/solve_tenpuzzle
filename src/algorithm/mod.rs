@@ -1,16 +1,20 @@
-pub struct Permutation{
-    n : usize,
-    v : Vec<usize>,
-    first_next : bool,
+pub struct Permutation {
+    n: usize,
+    v: Vec<usize>,
+    first_next: bool,
 }
 
 impl Permutation {
-    pub fn new(n : usize) -> Self{
-        let mut tmp : Vec<usize> = Vec::new();
+    pub fn new(n: usize) -> Self {
+        let mut tmp: Vec<usize> = Vec::new();
         for i in 0..n {
             tmp.push(i);
         }
-        Permutation{n: n, v: tmp, first_next: true}
+        Permutation {
+            n: n,
+            v: tmp,
+            first_next: true,
+        }
     }
 }
 
@@ -23,11 +27,11 @@ impl Iterator for Permutation {
             self.first_next = false;
 
             Some(x)
-        }else{
+        } else {
             let mut max_leq_id = 0;
             let mut f = false;
-            for i in 0..(self.n-1) {
-                if self.v[i] < self.v[i+1] {
+            for i in 0..(self.n - 1) {
+                if self.v[i] < self.v[i + 1] {
                     max_leq_id = i;
                     f = true;
                 }
@@ -37,27 +41,24 @@ impl Iterator for Permutation {
                 return None;
             }
 
-            let mut greater_id = self.n-1;
-            for i in 0..(self.n-1) {
+            let mut greater_id = self.n - 1;
+            for i in 0..(self.n - 1) {
                 if self.v[max_leq_id] < self.v[self.n - i - 1] {
                     greater_id = self.n - i - 1;
                     break;
                 }
             }
 
-            
             // std::mem::swap(&mut self.v[max_leq_id], &mut self.v[max_leq_id+1]);
 
-            self.v.swap(max_leq_id,greater_id);
+            self.v.swap(max_leq_id, greater_id);
 
-            for i in 0.. (self.n - max_leq_id)/2 {
+            for i in 0..(self.n - max_leq_id) / 2 {
                 self.v.swap(i + max_leq_id + 1, self.n - i - 1);
             }
 
             let v_res = self.v.clone();
             Some(v_res)
         }
-
-        
     }
 }
