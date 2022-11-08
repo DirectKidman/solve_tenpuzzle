@@ -1,6 +1,6 @@
 fn main() {
     let op = Op::Add;
-    let expr = make_expressions(1, 2, 3, 4, (Op::Add, Op::Mul, Op::Add))
+    let expr = make_expressions(1, 2, 3, 4, (Op::Add, Op::Mul, Op::Add));
     // let expr2 = Expr::BinOp((op , Box::new(Expr::Num(3)), Box::new(Expr::Num(4))));
     // let expr3 = Expr::BinOp((op, Box::new(expr1), Box::new(expr2)));
     for e in expr {
@@ -37,7 +37,7 @@ fn make_expressions(a: u32, b: u32, c:u32 , d:u32, op: (Op,Op,Op)) -> Vec<Expr> 
         BinOp(op3, BinOp(op1, a, BinOp(op2, b, c)), d),
         
         BinOp(op1, a, BinOp(op3, BinOP(op2, b, c), d)),
-        BinOp(op1, a, BinOP(op2, b, BinOp(op3, c, d)),
+        BinOp(op1, a, BinOP(op2, b, BinOp(op3, c, d))),
         BinOp(op2, BinOp(op1, a,b), BinOp(op3, c, d)),
     ]
 }

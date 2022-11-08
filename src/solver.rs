@@ -1,27 +1,5 @@
-use num_rational::Ratio;
-use permutohedron::LexicalPermutation as _;
+#[allow(unused_variables)]
 const ANS: f32 = 10.0;
-
-pub fn new_solver(mut v: Vec<Ratio<usize>>, goal: usize) -> Vec<String> {
-    loop {
-        if !v.next_permutation() {
-            break;
-        }
-    }
-    vec![]
-}
-
-fn _inner_solver(lhs: Ratio<usize>, rhs: Ratio<usize>) -> Vec<Ratio<usize>> {
-    let mut res = vec![];
-    res.push(lhs + rhs);
-    res.push(lhs - rhs);
-    res.push(lhs * rhs);
-    if rhs != Ratio::from_integer(0) {
-        res.push(lhs / rhs);
-    }
-
-    res
-}
 
 pub fn solve(v: &mut Vec<f32>) -> Vec<String> {
     let mut perm = crate::util::Permutation::new(4);
@@ -200,8 +178,8 @@ pub fn solve_all(limit: usize) -> u32 {
                     v.push(l as f32);
 
                     let res = solve(&mut v);
-                    for e in &res {
-                        println!("{}", e);
+                    for _e in &res {
+                        // println!("{}", e);
                     }
                     //println!("{:?}",v);
 
