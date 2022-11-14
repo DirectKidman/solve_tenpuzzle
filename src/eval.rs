@@ -9,24 +9,15 @@ enum Priority {
     NonCommute(usize),
 }
 
-pub fn eval(
-    nums: &Vec<Ratio<isize>>,
-    ops: &Vec<char>,
-    pattern: &Vec<Symbol>,
-    create_str: bool,
-) -> Option<(Ratio<isize>, String)> {
+pub fn eval(nums: &Vec<Ratio<i32>>, ops: &Vec<char>, pattern: &Vec<Symbol>) -> Option<Ratio<i32>> {
     let n = nums.len();
     let mut n_st = Vec::with_capacity(n);
-    let mut s_st = Vec::with_capacity(n);
     let mut n_id = 0;
     let mut ops_id = 0;
     for sym in pattern {
         match sym {
             Symbol::Num => {
                 n_st.push(nums[n_id]);
-                if create_str {
-                s_st.push((format!("{}", nums[n_id]), Num(3)));
-                }
                 n_id += 1;
             }
             _ => {
@@ -36,30 +27,41 @@ pub fn eval(
                     Some(x) => n_st.push(x),
                     _ => return None,
                 }
-
-                if create_str {
-                    let sy = s_st.pop().unwrap();
-                    let sx = s_st.pop().unwrap();
-
-                    let res = concat(sx, sy, ops[ops_id]);
-                    s_st.push(res);
-                }
                 ops_id += 1;
             }
         }
     }
 
     let n_ans = n_st.pop().unwrap();
-    if create_str {
-        let st_ans = s_st.pop().unwrap().0;
-        Some((n_ans, st_ans))
-    } else {
-        Some((n_ans, "".to_string()))
+    Some(n_ans)
+}
+
+pub fn eval_str(nums: &Vec<Ratio<i32>>, ops: &Vec<char>, pattern: &Vec<Symbol>) -> Option<String> {
+    let mut s_st = Vec::with_capacity(nums.len());
+    let mut n_id = 0;
+    let mut ops_id = 0;
+
+    for sym in pattern {
+        match sym {
+            Symbol::Num => {
+                s_st.push((format!("{}", nums[n_id]), Num(3)));
+                n_id += 1;
+            }
+            _ => {
+                let sy = s_st.pop().unwrap();
+                let sx = s_st.pop().unwrap();
+
+                let res = concat(sx, sy, ops[ops_id]);
+                s_st.push(res);
+                ops_id += 1;
+            }
+        }
     }
+    Some(s_st.pop().unwrap().0)
 }
 
 #[inline]
-fn calc(x: Ratio<isize>, y: Ratio<isize>, ops: char) -> Option<Ratio<isize>> {
+fn calc(x: Ratio<i32>, y: Ratio<i32>, ops: char) -> Option<Ratio<i32>> {
     match ops {
         '+' => Some(x + y),
         '-' => Some(x - y),
@@ -107,15 +109,15 @@ fn concat(x: (String, Priority), y: (String, Priority), ops: char) -> (String, P
 #[test]
 fn test_eval() {
     use crate::pattern::Patterns;
-    let nums: Vec<Ratio<isize>> = vec![1.into(), 2.into(), 7.into(), 0.into()];
+    let nums: Vec<Ratio<i32>> = vec![1.into(), 2.into(), 7.into(), 0.into()];
     let ops = vec!['+', '+', '+'];
     let e = Patterns::new(4);
-    let ans = eval(&nums, &ops, &e.get(4)[0], true);
+    let ans = eval(&nums, &ops, &e.get(4)[0]);
     eprintln!("e.get(4)[0] = {:?}", &e.get(4)[0]);
-    let acc: Option<(_, _)> = Some((10.into(), "1+2+7+0".to_string()));
+    let acc = Some(10.into());
 
     for l in e.get(4) {
-        let ans = eval(&nums, &ops, l, true);
+        let ans = eval(&nums, &ops, l);
         eprintln!("ans = {:?}", ans);
     }
     assert_eq!(acc, ans);

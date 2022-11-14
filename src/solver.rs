@@ -1,5 +1,5 @@
 #[allow(unused_variables)]
-const ANS: f32 = 10.0;
+const ANS: f32 = 24.0;
 
 pub fn solve(v: &mut Vec<f32>) -> Vec<String> {
     let mut perm = crate::util::Permutation::new(4);
