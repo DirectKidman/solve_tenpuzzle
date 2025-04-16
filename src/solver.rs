@@ -1,5 +1,5 @@
 #[allow(unused_variables)]
-const ANS: f32 = 24.0;
+const ANS: f32 = 10.0;
 
 pub fn solve(v: &mut Vec<f32>) -> Vec<String> {
     let mut perm = crate::util::Permutation::new(4);
@@ -166,18 +166,24 @@ fn make_op_vec() -> Vec<Vec<char>> {
 pub fn solve_all(limit: usize) -> u32 {
     let mut ans: u32 = 0;
     let mut v: Vec<f32> = Vec::new();
+    let mut time = 0;
+    let mut lp = 0;
 
-    for i in 0..=limit {
+    for i in 1..=limit {
         for j in i..=limit {
             for k in j..=limit {
                 for l in k..=limit {
+                    lp += 1;
                     v.clear();
                     v.push(i as f32);
                     v.push(j as f32);
                     v.push(k as f32);
                     v.push(l as f32);
 
+                    let start = std::time::Instant::now();
                     let res = solve(&mut v);
+                    let elapsed = start.elapsed();
+                    time += elapsed.as_nanos();
                     for _e in &res {
                         // println!("{}", e);
                     }
@@ -190,5 +196,6 @@ pub fn solve_all(limit: usize) -> u32 {
             }
         }
     }
+    eprintln!("time/lp = {:?}ns, loop={}", time / lp, lp);
     ans
 }

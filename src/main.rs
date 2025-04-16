@@ -1,5 +1,4 @@
 use solve_tenpuzzle::new_solver;
-use solve_tenpuzzle::pattern;
 use solve_tenpuzzle::solver;
 use std::env;
 // use solve_tenpuzzle::algorithm::Permutation;
@@ -9,7 +8,7 @@ fn main() {
 
     if args.len() <= 1 {
         // let guard = pprof::ProfilerGuard::new(80).unwrap();
-        let lim = 9;
+        let lim = 13;
         let clock = std::time::Instant::now();
         let ans = solver::solve_all(lim);
         let t = clock.elapsed();
@@ -27,27 +26,38 @@ fn main() {
         //     report.flamegraph(file).unwrap();
         // };
     } else {
-        for i in 1..args.len() {
-            let tmp = &args[i].clone();
-            let mut _num_vec: Vec<f32> = tmp
-                .chars()
-                .map(|x| x.to_string().parse().unwrap())
-                .collect();
-            let nums: Vec<i32> = tmp
-                .chars()
-                .map(|x| x.to_string().parse().unwrap())
-                .collect();
-
-            // let mut ans = solver::solve(&mut num_vec);
-            // ans.sort();
-            // ans.dedup();
-            // for e in &ans {
-            //     println!("{}", e);
-            // }
-            let e = pattern::Patterns::new(nums.len());
-            println!("------------------");
-            let res = new_solver::solve(&nums, 10, true, false, &e.get(nums.len()));
-            eprintln!("res = {:?}", res);
+        let mut num_vec: Vec<f32> = args
+            .into_iter()
+            .skip(1)
+            .map(|x| x.parse().unwrap())
+            .collect();
+        let mut ans = solver::solve(&mut num_vec);
+        ans.sort();
+        ans.dedup();
+        for e in &ans {
+            println!("{}", e);
         }
+        // for i in 1..args.len() {
+        //     let tmp = &args[i].clone();
+        //     let mut num_vec: Vec<f32> = tmp
+        //         .chars()
+        //         .map(|x| x.to_string().parse().unwrap())
+        //         .collect();
+        //     let nums: Vec<i32> = tmp
+        //         .chars()
+        //         .map(|x| x.to_string().parse().unwrap())
+        //         .collect();
+
+        //     let mut ans = solver::solve(&mut num_vec);
+        //     ans.sort();
+        //     ans.dedup();
+        //     for e in &ans {
+        //         println!("{}", e);
+        //     }
+        //     let e = pattern::Patterns::new(nums.len());
+        //     println!("------------------");
+        // let res = new_solver::solve(&nums, 10, true, true, &e.get(nums.len()));
+        // eprintln!("res = {:?}", res);
+        // }
     }
 }

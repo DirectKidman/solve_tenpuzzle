@@ -23,17 +23,14 @@ pub fn eval(nums: &Vec<Ratio<i32>>, ops: &Vec<char>, pattern: &Vec<Symbol>) -> O
             _ => {
                 let y = n_st.pop().unwrap();
                 let x = n_st.pop().unwrap();
-                match calc(x, y, ops[ops_id]) {
-                    Some(x) => n_st.push(x),
-                    _ => return None,
-                }
+                let add = calc(x, y, ops[ops_id])?;
+                n_st.push(add);
                 ops_id += 1;
             }
         }
     }
 
-    let n_ans = n_st.pop().unwrap();
-    Some(n_ans)
+    n_st.pop()
 }
 
 pub fn eval_str(nums: &Vec<Ratio<i32>>, ops: &Vec<char>, pattern: &Vec<Symbol>) -> Option<String> {
@@ -44,7 +41,7 @@ pub fn eval_str(nums: &Vec<Ratio<i32>>, ops: &Vec<char>, pattern: &Vec<Symbol>) 
     for sym in pattern {
         match sym {
             Symbol::Num => {
-                s_st.push((format!("{}", nums[n_id]), Num(3)));
+                s_st.push((format!("{} ", nums[n_id]), Num(3)));
                 n_id += 1;
             }
             _ => {
